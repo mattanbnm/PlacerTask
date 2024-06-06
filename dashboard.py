@@ -1,5 +1,5 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 # Load data
 chain_models_df = pd.read_csv('ChainModels_anom.csv')
@@ -28,12 +28,6 @@ st.title("Chain Performance Dashboard")
 # Select chain ID
 selected_chain_id = st.selectbox("Select Chain ID", chain_performance['Chain ID'])
 
-
-# Visualization
-st.write("### Performance Metrics Visualization")
-st.bar_chart(chain_info[['mean_absolute_error', 'mean_squared_error']])
-st.write(f"Pass/Fail Status: {'Pass' if chain_info['pass_fail'].values[0] else 'Fail'}")
-
 # Display chain-level performance
 chain_info = chain_performance[chain_performance['Chain ID'] == selected_chain_id]
 st.write("### Chain Performance Metrics")
@@ -47,3 +41,10 @@ st.write(model_info)
 st.write("### Feature Information")
 st.write(feature_info)
 
+# Ensure the necessary columns are available for plotting
+if not chain_info.empty and 'mean_absolute_error' in chain_info.columns and 'mean_squared_error' in chain_info.columns:
+    st.write("### Performance Metrics Visualization")
+    st.bar_chart(chain_info[['mean_absolute_error', 'mean_squared_error']])
+    st.write(f"Pass/Fail Status: {'Pass' if chain_info['pass_fail'].values[0] else 'Fail'}")
+else:
+    st.error("Required columns for visualization are missing or data is not available.")
