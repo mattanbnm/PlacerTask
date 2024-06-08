@@ -28,6 +28,18 @@ st.title("Chain Performance Dashboard")
 # Select chain ID
 selected_chain_id = st.selectbox("Select Chain ID", chain_performance['Chain ID'])
 
+
+# Beeswarm plot for the selected chain
+st.write("### Beeswarm Plot of True Values vs Model Predictions")
+model_ids = model_info['Model ID'].unique()
+if len(model_ids) > 0:
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.swarmplot(data=merged_df[merged_df['Model ID'].isin(model_ids)], x='Model Prediction', y='True Value', ax=ax)
+    plt.title(f'Beeswarm Plot for Chain ID: {selected_chain_id}')
+    st.pyplot(fig)
+else:
+    st.write("No model predictions available for the selected chain.")
+    
 # Display chain-level performance
 chain_info = chain_performance[chain_performance['Chain ID'] == selected_chain_id]
 st.write("### Chain Performance Metrics")
