@@ -63,6 +63,10 @@ try:
     st.subheader(selected_chain_id)
     st.subheader(f"Pass/Fail Status: {'***Pass***' if chain_info['pass_fail'].values[0] else '***Fail***'}")
 
+    # Display experiment instance
+    experiment_instance = chain_models_df[chain_models_df['Chain ID'] == 'f22f409d47117348d9351c1163571026']['Experiment instance'].iloc[0]
+    st.write(f"Experiment instance: ***{experiment_instance}***")
+    
     # Plot average true value on secondary y-axis
     ax2 = ax1.twinx()
     ax2.scatter(1, chain_info['avg_true_value'], color='blue', label='Selected Chain Avg True Value')
@@ -95,11 +99,18 @@ try:
     st.write(chain_info)
 
 except:
+    # Show selected_chain_id
+    st.subheader(selected_chain_id)
+    
+    # Display experiment instance
+    experiment_instance = chain_models_df[chain_models_df['Chain ID'] == 'f22f409d47117348d9351c1163571026']['Experiment instance'].iloc[0]
+
     # Display model and feature details
     # Filter the dataframe for the selected Chain ID
     model_info = chain_models_df[chain_models_df['Chain ID'] == selected_chain_id]
     feature_info = selected_features_df[selected_features_df['Chain ID'] == selected_chain_id]
 
+    st.write(f"Experiment instance: ***{experiment_instance}***")
     st.write("### Model Information")
     st.write(model_info)
 
